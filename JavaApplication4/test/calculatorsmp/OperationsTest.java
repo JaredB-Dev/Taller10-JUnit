@@ -4,6 +4,8 @@
  */
 package calculatorsmp;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,22 +18,22 @@ import static org.junit.Assert.*;
  * @author Selim
  */
 public class OperationsTest {
-    
+
     public OperationsTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -42,7 +44,77 @@ public class OperationsTest {
         String expResult = "";
         String result = Operations.MakeFormula();
         assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    }
+
+    @Test
+    // @DisplayName("Comprobar que el resultado en formato String no es vacio Ex: [" "] para evitar operaciones en Solve")
+    public void testMakeFormulaNoVacio() {
+
+        System.out.println("MakeFormula");
+        String result = Operations.MakeFormula();
+        assertFalse("La fórmula generada está vacía", result.trim().isEmpty());
+
+    }
+
+    @Test
+    // @DisplayName("Comprobar que el resultado en formato String es un valor numerico excluyendo los operandos, para evitar ambiguedades y operaciones invalidas en Solve")
+    public void testMakeFormulaStringContieneNumeros() {
+        System.out.println("MakeFormula");
+        String formula = Operations.MakeFormula();
+
+        // Recorrer cada carácter y verificar que sea un dígito o un operador permitido
+        for (char c : formula.toCharArray()) {
+            boolean esDigito = Character.isDigit(c);
+            boolean esOperador = c == '+' || c == '-' || c == '*' || c == '/';
+
+            assertTrue("Carácter inválido en fórmula: '" + c + "'", esDigito || esOperador);
+        }
+    }
+
+    @Test
+    //@DisplayName("Fórmulas generadas son aleatorias")
+    public void testGeneracionAleatoria() {
+        Set<String> resultados = new HashSet<>();
+
+        resultados.add(Operations.MakeFormula());
+        resultados.add(Operations.MakeFormula());
+        resultados.add(Operations.MakeFormula());
+
+        assertTrue("Las fórmulas generadas son aleatorias", resultados.size() > 1);
+
+    }
+
+    @Test
+    //@DisplayName("Comprobar si existe en la creacion de la formula una división seguida de 0")
+    public void testDivisionPorCeroDirecta() {
+        String formula = Operations.MakeFormula();
+
+        for (int i = 0; i < formula.length() - 1; i++) {
+            if (formula.charAt(i) == '/') {
+                int j = i + 1;
+                boolean divisionPorCero = j < formula.length() && formula.charAt(j) == '0';
+                assertFalse("División por cero detectada en: " + formula, divisionPorCero);
+            }
+        }
+    }
+    @Test
+    //@DisplayName("Comprobar que el resultado de la formula no es null")
+    public void testMakeFormulaNotNull() {
+       String formula = Operations.MakeFormula();
+       assertNotNull(formula,"El resultado de la formula generada no puede ser null");
+    }
+    
+    @Test
+    //@DisplayName("Comprobar que la formula no contiene operandos seguidos")
+    public void testMakeFormulaDobleOperando(){
+        String formula = Operations.MakeFormula();
+        for (int i = 0; i < formula.length() - 1; i++) {
+        char currentChar = formula.charAt(i);
+        char nextChar = formula.charAt(i + 1);
+       if ((currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/') &&
+            (nextChar == '+' || nextChar == '-' || nextChar == '*' || nextChar == '/'))
+            fail("Se encontro fallo por operadores seguidos " + currentChar + nextChar);
+        }
     }
 
     //Se asume que las operaciones son entre numeros enteros
@@ -109,8 +181,5 @@ public class OperationsTest {
         assertEquals(expResult, result);
         //fail("The test case is a prototype.");
     }
-    
-    
-    
     
 }
