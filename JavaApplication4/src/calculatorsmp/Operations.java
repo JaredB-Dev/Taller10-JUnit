@@ -92,7 +92,7 @@ public class Operations {
                 }
             }
         }
-        return formula + "=" + calcStack.pop();
+        return  calcStack.pop();
     }
 
 
