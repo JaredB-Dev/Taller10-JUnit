@@ -22,30 +22,6 @@ public class OperationsTest {
     public OperationsTest() {
     }
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
-    @Test
-    public void testMakeFormula() {
-        System.out.println("MakeFormula");
-        String expResult = "";
-        String result = Operations.MakeFormula();
-        assertEquals(expResult, result);
-    }
-
     @Test
     // @DisplayName("Comprobar que el resultado en formato String no es vacio Ex: [" "] para evitar operaciones en Solve")
     public void testMakeFormulaNoVacio() {
@@ -127,7 +103,6 @@ public class OperationsTest {
         String expResult = "-100";
         String result = Operations.Solve(formula);
         assertEquals(expResult, result);
-        //fail("The test case is a prototype.");
     }
     
     @Test
@@ -138,7 +113,6 @@ public class OperationsTest {
         String expResult = "538";
         String result = Operations.Solve(formula);
         assertEquals(expResult, result);
-        //fail("The test case is a prototype.");
     }
     
     @Test
@@ -149,17 +123,15 @@ public class OperationsTest {
         String expResult = "20";
         String result = Operations.Solve(formula);
         assertEquals(expResult, result);
-        //fail("The test case is a prototype.");
     }
     @Test
-    //DisplayName("Verificar si permite realizar division entre ")
+    //DisplayName("Verificar si permite realizar division cuyo resultado den residuo")
     public void test_DivisionConResiduo() {
         System.out.println("Solve");
         String formula = "15/2";
         String expResult = "7.5";
         String result = Operations.Solve(formula);
         assertEquals(expResult, result);
-        //fail("The test case is a prototype.");
     }
     @Test
     //DisplayName("Verificar si realiza las operaciones en orden(primero division,multiplicacion,suma/resta)")
@@ -169,17 +141,15 @@ public class OperationsTest {
         String expResult = "6";
         String result = Operations.Solve(formula);
         assertEquals(expResult, result);
-        //fail("The test case is a prototype.");
     }
     @Test
-    //DisplayName("")
+    //DisplayName("Verificar Division Para Cero")
     public void test_DivisionParaCero() {
         System.out.println("Solve");
         String formula = "1/0";
         String expResult = "";
         String result = Operations.Solve(formula);
         assertEquals(expResult, result);
-        //fail("The test case is a prototype.");
     }
     
 }
