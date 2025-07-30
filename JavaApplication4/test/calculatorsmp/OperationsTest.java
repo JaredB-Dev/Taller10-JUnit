@@ -44,6 +44,25 @@ public class OperationsTest {
         assertEquals(expResult, result);
         fail("The test case is a prototype.");
     }
+    @Test
+    //@DisplayName("Comprobar que el resultado de la formula no es null")
+    public void testMakeFormulaNotNull() {
+       String formula = Operations.MakeFormula();
+       assertNotNull(formula,"El resultado de la formula generada no puede ser null");
+    }
+    
+    @Test
+    //@DisplayName("Comprobar que la formula no contiene operandos seguidos")
+    public void testMakeFormulaDobleOperando(){
+        String formula = Operations.MakeFormula();
+        for (int i = 0; i < formula.length() - 1; i++) {
+        char currentChar = formula.charAt(i);
+        char nextChar = formula.charAt(i + 1);
+       if ((currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/') &&
+            (nextChar == '+' || nextChar == '-' || nextChar == '*' || nextChar == '/'))
+            fail("Se encontro fallo por operadores seguidos " + currentChar + nextChar);
+        }
+    }
 
     @Test
     public void testSolve() {
